@@ -1,0 +1,206 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,700;9..144,900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+/* ── Variables ─────────────────────────────────────────────── */
+:root {
+  --bg:      #08070C;
+  --bg2:     #0E0C14;
+  --bg3:     #14111B;
+  --bg4:     #1A1724;
+  --border:  rgba(255,255,255,0.07);
+  --borderB: rgba(255,255,255,0.12);
+  --gold:    #D4AF6A;
+  --goldD:   #7A5514;
+  --goldF:   rgba(212,175,106,0.08);
+  --text:    #EBE6DC;
+  --dim:     #6B6560;
+  --muted:   #302C28;
+  --green:   #34D399;
+  --red:     #F87171;
+  --blue:    #60A5FA;
+  --purple:  #A78BFA;
+  --amber:   #FBBF24;
+  --ease:    cubic-bezier(0.4,0,0.2,1);
+  --spring:  cubic-bezier(0.34,1.56,0.64,1);
+}
+
+/* ── Reset ─────────────────────────────────────────────────── */
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0 }
+html { scroll-behavior:smooth }
+body {
+  background:var(--bg); color:var(--text);
+  font-family:'DM Sans',system-ui,sans-serif;
+  font-size:15px; line-height:1.68;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+
+/* Prevent ANY element from causing horizontal overflow */
+* { max-width:100%; box-sizing:border-box }
+img,video,canvas,svg { display:block; max-width:100% }
+textarea,input { max-width:100% }
+
+/* Make sure tables/grids can't burst viewport */
+[style*='gridTemplateColumns'] { min-width:0 }
+[style*='display:flex'] { min-width:0 }
+[style*='display: flex'] { min-width:0 }
+button { font-family:'DM Sans',sans-serif; cursor:pointer; border:none; outline:none }
+button:focus-visible { outline:2px solid var(--gold); outline-offset:3px }
+a { color:inherit; text-decoration:none }
+::-webkit-scrollbar { width:4px }
+::-webkit-scrollbar-track { background:transparent }
+::-webkit-scrollbar-thumb { background:var(--bg4); border-radius:4px }
+h1,h2,h3,h4 { font-family:'Fraunces',Georgia,serif; font-weight:700; line-height:1.13; letter-spacing:-.025em }
+.mono { font-family:'JetBrains Mono',monospace }
+
+/* ── Keyframes ─────────────────────────────────────────────── */
+@keyframes fadeUp    { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadeIn    { from{opacity:0} to{opacity:1} }
+@keyframes slideL    { from{opacity:0;transform:translateX(28px)} to{opacity:1;transform:translateX(0)} }
+@keyframes slideR    { from{opacity:0;transform:translateX(-28px)} to{opacity:1;transform:translateX(0)} }
+@keyframes scaleIn   { from{opacity:0;transform:scale(0.92)} to{opacity:1;transform:scale(1)} }
+@keyframes ticker    { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+@keyframes float     { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+@keyframes floatR    { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-6px) rotate(2deg)} }
+@keyframes pulse     { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.07)} }
+@keyframes glow      { 0%,100%{box-shadow:0 0 0 0 rgba(212,175,106,0)} 50%{box-shadow:0 0 36px 8px rgba(212,175,106,0.14)} }
+@keyframes glowGreen { 0%,100%{box-shadow:0 0 0 0 rgba(52,211,153,0)} 50%{box-shadow:0 0 20px 4px rgba(52,211,153,0.2)} }
+@keyframes spin      { to{transform:rotate(360deg)} }
+@keyframes spinSlow  { to{transform:rotate(360deg)} }
+@keyframes blink     { 0%,100%{opacity:1} 50%{opacity:0} }
+@keyframes shimmer   { 0%{background-position:-600px 0} 100%{background-position:600px 0} }
+@keyframes gradMove  { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
+@keyframes msgIn     { from{opacity:0;transform:translateY(9px)} to{opacity:1;transform:translateY(0)} }
+@keyframes barFill   { from{width:0%} to{width:var(--w,100%)} }
+@keyframes nodePop   { 0%{transform:scale(1)} 40%{transform:scale(1.18)} 100%{transform:scale(1)} }
+@keyframes ripple    { 0%{transform:scale(1);opacity:0.6} 100%{transform:scale(2.2);opacity:0} }
+@keyframes dash      { to{stroke-dashoffset:0} }
+@keyframes countUp   { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+
+/* ── Scroll-reveal  (JS adds .vis class) ──────────────────── */
+.sr       { opacity:0; transform:translateY(30px); transition:opacity 0.75s var(--ease), transform 0.75s var(--ease) }
+.sr-l     { opacity:0; transform:translateX(-30px); transition:opacity 0.75s var(--ease), transform 0.75s var(--ease) }
+.sr-r     { opacity:0; transform:translateX(30px); transition:opacity 0.75s var(--ease), transform 0.75s var(--ease) }
+.sr-s     { opacity:0; transform:scale(0.92); transition:opacity 0.6s var(--ease), transform 0.6s var(--ease) }
+.sr.vis,.sr-l.vis,.sr-r.vis,.sr-s.vis { opacity:1; transform:none }
+
+.d1{transition-delay:0.07s!important} .d2{transition-delay:0.14s!important}
+.d3{transition-delay:0.21s!important} .d4{transition-delay:0.28s!important}
+.d5{transition-delay:0.35s!important} .d6{transition-delay:0.42s!important}
+
+/* ── Entrance animations ──────────────────────────────────── */
+.aU { animation:fadeUp  0.75s var(--ease) both }
+.aI { animation:fadeIn  0.55s var(--ease) both }
+.aL { animation:slideL  0.65s var(--ease) both }
+.aR { animation:slideR  0.65s var(--ease) both }
+.aS { animation:scaleIn 0.55s var(--ease) both }
+
+/* ── Gradient text ────────────────────────────────────────── */
+.grad {
+  background:linear-gradient(135deg,var(--gold) 0%,#F2C97A 50%,var(--goldD) 100%);
+  background-size:200% 200%; animation:gradMove 5s ease infinite;
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+
+/* ── Buttons ──────────────────────────────────────────────── */
+.btn { display:inline-flex; align-items:center; gap:8px; border:none; font-family:'DM Sans',sans-serif; cursor:pointer; border-radius:9px; font-weight:700; letter-spacing:0.05em; text-transform:uppercase; transition:0.2s var(--ease); white-space:nowrap }
+.btn-gold { background:linear-gradient(135deg,var(--gold),var(--goldD)); color:var(--bg); padding:11px 26px; font-size:0.82rem }
+.btn-gold:hover { transform:translateY(-2px); box-shadow:0 10px 32px rgba(212,175,106,0.35) }
+.btn-gold:active { transform:translateY(0) }
+.btn-outline { background:transparent; color:var(--gold); padding:11px 22px; font-size:0.82rem; border:1px solid rgba(212,175,106,0.35) }
+.btn-outline:hover { background:rgba(212,175,106,0.08); transform:translateY(-1px) }
+.btn-ghost { background:transparent; color:var(--dim); padding:7px 14px; font-size:0.78rem; border:1px solid var(--border); border-radius:8px; font-weight:600; letter-spacing:0; text-transform:none }
+.btn-ghost:hover { color:var(--text); border-color:var(--borderB) }
+
+/* ── Cards ────────────────────────────────────────────────── */
+.card { background:var(--bg2); border:1px solid var(--border); border-radius:13px; transition:0.25s var(--ease) }
+.card-h:hover { border-color:rgba(212,175,106,0.24); transform:translateY(-3px); box-shadow:0 16px 48px rgba(0,0,0,0.42) }
+
+/* ── Badges ───────────────────────────────────────────────── */
+.badge { display:inline-block; font-size:0.62rem; font-weight:700; letter-spacing:0.07em; text-transform:uppercase; padding:3px 9px; border-radius:20px }
+.b-buy   { background:rgba(52,211,153,0.13); color:var(--green) }
+.b-hold  { background:rgba(212,175,106,0.13); color:var(--gold) }
+.b-sell  { background:rgba(248,113,113,0.13); color:var(--red) }
+.b-watch { background:rgba(96,165,250,0.13); color:var(--blue) }
+
+/* ── Live dot ─────────────────────────────────────────────── */
+.dot { display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--green); box-shadow:0 0 8px var(--green); animation:pulse 2.2s ease infinite }
+
+/* ── Ticker ───────────────────────────────────────────────── */
+.ticker-wrap { overflow:hidden }
+.ticker-track { display:flex; white-space:nowrap; animation:ticker 50s linear infinite }
+.ticker-track:hover { animation-play-state:paused }
+
+/* ── Streaming ────────────────────────────────────────────── */
+/* .tok = newly arrived text chars — fade in from slightly below */
+@keyframes tokIn {
+  from { opacity:0; transform:translateY(3px) }
+  to   { opacity:1; transform:translateY(0) }
+}
+.tok { animation: tokIn 0.12s ease both; display:inline }
+
+/* Blinking cursor at end of streamed text */
+@keyframes curBlink { 0%,100%{opacity:1} 50%{opacity:0} }
+.scur {
+  display: inline-block;
+  width: 2px; height: 1.1em;
+  background: var(--gold);
+  border-radius: 1px;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: curBlink 0.65s ease infinite;
+}
+
+/* ── Skeleton ─────────────────────────────────────────────── */
+.skel { background:linear-gradient(90deg,var(--bg2) 25%,var(--bg3) 50%,var(--bg2) 75%); background-size:600px 100%; animation:shimmer 1.6s infinite; border-radius:6px }
+
+/* ── Prose ────────────────────────────────────────────────── */
+.prose { font-size:0.95rem; line-height:1.85; color:#C8C3BA }
+.prose h2 { font-size:1rem; color:var(--gold); margin:22px 0 10px; font-family:'DM Sans',sans-serif; font-weight:700; letter-spacing:0; display:flex; align-items:center; gap:8px }
+.prose h2:first-child { margin-top:0 }
+.prose h3 { font-size:0.8rem; color:var(--gold); margin:16px 0 7px; text-transform:uppercase; letter-spacing:0.09em; font-family:'DM Sans',sans-serif; font-weight:700 }
+.prose p  { margin-bottom:11px; color:#C8C3BA }
+.prose p:last-child { margin-bottom:0 }
+.prose ul { list-style:none; padding:0; margin-bottom:12px }
+.prose li { display:flex; gap:9px; margin-bottom:8px; align-items:flex-start; color:#C8C3BA }
+.prose li::before { content:'▸'; color:var(--gold); flex-shrink:0; margin-top:4px; font-size:0.75rem }
+.prose strong { color:#EBE6DC; font-weight:700 }
+.prose em { color:#9A9490; font-style:italic }
+.prose hr { border:none; border-top:1px solid rgba(255,255,255,0.08); margin:20px 0 }
+.prose code { font-family:'JetBrains Mono',monospace; font-size:0.82em; background:rgba(255,255,255,0.07); padding:2px 7px; border-radius:5px; color:var(--gold) }
+.prose blockquote { border-left:3px solid var(--gold); padding-left:14px; margin:14px 0; color:var(--dim); font-style:italic }
+
+/* ── Responsive ───────────────────────────────────────────── */
+@media(max-width:1024px) { .xl-hide{display:none!important} }
+@media(max-width:768px) {
+  .md-hide{display:none!important}
+  body{font-size:14px}
+  .section{padding:clamp(32px,6vw,48px) clamp(12px,4vw,20px)!important}
+  .container{padding:0 clamp(12px,4vw,20px)!important}
+  h1{font-size:clamp(1.7rem,7vw,2.8rem)!important}
+  h2{font-size:clamp(1.3rem,5vw,2.2rem)!important}
+  .prose{font-size:0.84rem}
+  /* Stack any remaining 2-col grids */
+  [style*="1fr 270px"],[style*="1fr 272px"],[style*="1fr 260px"] { grid-template-columns:1fr!important }
+  [style*="1fr 1fr"] { grid-template-columns:1fr!important }
+}
+@media(max-width:520px) {
+  .sm-hide{display:none!important}
+  .section{padding:28px 12px!important}
+  .container{padding:0 12px!important}
+  h1{font-size:clamp(1.5rem,8vw,2rem)!important}
+  h2{font-size:clamp(1.2rem,6vw,1.8rem)!important}
+  .prose{font-size:0.82rem}
+  /* Prevent fixed-width elements from overflowing */
+  [style*="minWidth:195"],[style*="min-width:195"],[style*="minWidth: 195"] { min-width:0!important }
+}
+
+/* ── Sections ─────────────────────────────────────────────── */
+.section  { padding: clamp(40px,7vw,88px) clamp(14px,4vw,40px) }
+.container{ max-width:1080px; margin:0 auto; padding:0 clamp(14px,4vw,40px) }
+
+/* ── Chat specific ────────────────────────────────────────── */
+/* Messages shouldn't overflow narrow screens */
+.prose ul li { flex-wrap:wrap }
+
+
+/* .stream-prose min-height */
+.stream-prose { min-height: 1.4em }
